@@ -1,10 +1,12 @@
 import type { Company, SortKey } from "@/features/home/data/companies";
+import { matchesQuery } from "@/lib/search";
 
 export type CompanyFilters = {
   sortBy: SortKey;
   owner: string;
   stage: string;
   activityWindow: number;
+  search: string;
 };
 
 export const TODAY = "2026-09-14";
@@ -17,17 +19,20 @@ export const DEFAULT_FILTERS: CompanyFilters = {
   owner: ALL_OWNERS,
   stage: ANY_STAGE,
   activityWindow: 90,
+  search: "",
 };
 
 export function activeFilterCount({
   owner,
   stage,
   activityWindow,
+  search,
 }: CompanyFilters) {
   return [
     owner !== DEFAULT_FILTERS.owner,
     stage !== DEFAULT_FILTERS.stage,
     activityWindow !== DEFAULT_FILTERS.activityWindow,
+    search.trim().length > 0,
   ].filter(Boolean).length;
 }
 
@@ -35,14 +40,21 @@ const TAG_CHAR_BUDGET = 20;
 
 export function filterCompanies(
   companies: Company[],
-  { sortBy, owner, stage, activityWindow }: CompanyFilters,
+  { sortBy, owner, stage, activityWindow, search }: CompanyFilters,
 ): Company[] {
   const filtered = companies.filter((company) => {
     if (owner !== ALL_OWNERS && company.owner !== owner) return false;
     if (stage !== ANY_STAGE && !company.tags.some((tag) => tag === stage)) {
       return false;
     }
-    return company.activityDays <= activityWindow;
+    if (company.activityDays > activityWindow) return false;
+    return matchesQuery(
+      search,
+      company.name,
+      company.owner,
+      ...company.tags,
+      company.lastInteraction.label,
+    );
   });
 
   return filtered.sort((a, b) => {

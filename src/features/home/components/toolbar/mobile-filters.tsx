@@ -50,6 +50,7 @@ export default function MobileFilters({ className }: MobileFiltersProps) {
   const owner = useCompaniesStore((state) => state.owner);
   const stage = useCompaniesStore((state) => state.stage);
   const activityWindow = useCompaniesStore((state) => state.activityWindow);
+  const search = useCompaniesStore((state) => state.search);
   const setSortBy = useCompaniesStore((state) => state.setSortBy);
   const setOwner = useCompaniesStore((state) => state.setOwner);
   const setStage = useCompaniesStore((state) => state.setStage);
@@ -58,13 +59,18 @@ export default function MobileFilters({ className }: MobileFiltersProps) {
   );
   const resetFilters = useCompaniesStore((state) => state.resetFilters);
 
-  const filters = { sortBy, owner, stage, activityWindow };
+  const filters = { sortBy, owner, stage, activityWindow, search };
   const activeCount = activeFilterCount(filters);
   const resultCount = useMemo(
     () =>
-      filterCompanies(companies, { sortBy, owner, stage, activityWindow })
-        .length,
-    [companies, sortBy, owner, stage, activityWindow],
+      filterCompanies(companies, {
+        sortBy,
+        owner,
+        stage,
+        activityWindow,
+        search,
+      }).length,
+    [companies, sortBy, owner, stage, activityWindow, search],
   );
 
   return (

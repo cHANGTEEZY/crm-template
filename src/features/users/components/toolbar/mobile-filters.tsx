@@ -43,16 +43,17 @@ export default function MobileFilters({ className }: MobileFiltersProps) {
   const sortBy = useUsersStore((state) => state.sortBy);
   const role = useUsersStore((state) => state.role);
   const status = useUsersStore((state) => state.status);
+  const search = useUsersStore((state) => state.search);
   const setSortBy = useUsersStore((state) => state.setSortBy);
   const setRole = useUsersStore((state) => state.setRole);
   const setStatus = useUsersStore((state) => state.setStatus);
   const resetFilters = useUsersStore((state) => state.resetFilters);
 
-  const filters = { sortBy, role, status };
+  const filters = { sortBy, role, status, search };
   const activeCount = activeFilterCount(filters);
   const resultCount = useMemo(
-    () => filterUsers(users, { sortBy, role, status }).length,
-    [users, sortBy, role, status],
+    () => filterUsers(users, { sortBy, role, status, search }).length,
+    [users, sortBy, role, status, search],
   );
 
   return (

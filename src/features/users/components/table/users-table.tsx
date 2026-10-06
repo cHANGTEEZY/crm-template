@@ -21,13 +21,14 @@ export default function UsersTable() {
   const sortBy = useUsersStore((state) => state.sortBy);
   const role = useUsersStore((state) => state.role);
   const status = useUsersStore((state) => state.status);
+  const search = useUsersStore((state) => state.search);
   const selectedIds = useUsersStore((state) => state.selectedIds);
   const toggleSelected = useUsersStore((state) => state.toggleSelected);
   const setSelected = useUsersStore((state) => state.setSelected);
 
   const visible = useMemo(
-    () => filterUsers(users, { sortBy, role, status }),
-    [users, sortBy, role, status],
+    () => filterUsers(users, { sortBy, role, status, search }),
+    [users, sortBy, role, status, search],
   );
 
   const selectedVisible = visible.filter((user) =>

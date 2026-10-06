@@ -13,13 +13,13 @@ export default function SidebarSection({
   className,
 }: SidebarSectionProps) {
   return (
-    <div className={cn("flex flex-col gap-1 p-3", className)}>
+    <div className={cn("flex flex-col gap-1 px-2.5 py-1.5", className)}>
       {title && (
-        <span className="eyebrow-style block font-medium text-faint">
+        <span className="eyebrow-style px-2 pt-2 pb-1.5 font-medium text-faint">
           {title}
         </span>
       )}
-      <ul className="flex flex-col">{children}</ul>
+      <ul className="flex flex-col gap-px">{children}</ul>
     </div>
   );
 }

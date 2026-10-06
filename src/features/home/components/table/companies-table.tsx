@@ -22,6 +22,7 @@ export default function CompaniesTable() {
   const owner = useCompaniesStore((state) => state.owner);
   const stage = useCompaniesStore((state) => state.stage);
   const activityWindow = useCompaniesStore((state) => state.activityWindow);
+  const search = useCompaniesStore((state) => state.search);
   const selectedIds = useCompaniesStore((state) => state.selectedIds);
   const detailId = useCompaniesStore((state) => state.detailId);
   const detailOpen = useCompaniesStore((state) => state.detailOpen);
@@ -31,8 +32,15 @@ export default function CompaniesTable() {
   const openProfile = useCompaniesStore((state) => state.openProfile);
 
   const visible = useMemo(
-    () => filterCompanies(companies, { sortBy, owner, stage, activityWindow }),
-    [companies, sortBy, owner, stage, activityWindow],
+    () =>
+      filterCompanies(companies, {
+        sortBy,
+        owner,
+        stage,
+        activityWindow,
+        search,
+      }),
+    [companies, sortBy, owner, stage, activityWindow, search],
   );
 
   const selectedVisible = visible.filter((company) =>

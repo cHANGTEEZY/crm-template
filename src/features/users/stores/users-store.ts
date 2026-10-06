@@ -7,10 +7,12 @@ type UsersState = {
   sortBy: UserSortKey;
   role: string;
   status: string;
+  search: string;
   selectedIds: string[];
   setSortBy: (sortBy: UserSortKey) => void;
   setRole: (role: string) => void;
   setStatus: (status: string) => void;
+  setSearch: (search: string) => void;
   resetFilters: () => void;
   toggleSelected: (id: string) => void;
   setSelected: (ids: string[]) => void;
@@ -23,6 +25,7 @@ export const useUsersStore = create<UsersState>((set) => ({
   setSortBy: (sortBy) => set({ sortBy }),
   setRole: (role) => set({ role }),
   setStatus: (status) => set({ status }),
+  setSearch: (search) => set({ search }),
   resetFilters: () => set({ ...DEFAULT_FILTERS }),
   toggleSelected: (id) =>
     set((state) => ({

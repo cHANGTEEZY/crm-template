@@ -26,7 +26,7 @@ export default function SidebarNavItem({
   const setSidebarOpen = useUiStore((state) => state.setSidebarOpen);
 
   return (
-    <li className={cn(active && "mb-0.75")}>
+    <li>
       <Button
         variant="nav"
         size="md"
@@ -37,7 +37,7 @@ export default function SidebarNavItem({
           if (href) setSidebarOpen(false);
         }}
         className={cn(
-          "group h-[30px] gap-1.5 py-0 data-[active=true]:h-8",
+          "h-8 gap-2 px-2 py-0",
           tone === "quiet" && "text-subtle",
         )}
       >

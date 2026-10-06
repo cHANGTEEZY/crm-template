@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Command,
   CommandDialog,
@@ -14,12 +15,15 @@ import {
   Kbd,
 } from "@/components/_ui/command";
 import { CommandCompanyRow, CommandTableHeader } from "./command-table";
+import { useUiStore } from "@/features/app/stores/ui-store";
 import { useCompaniesStore } from "@/features/home/stores/companies-store";
 import PlusIcon from "@/public/assets/images/_common/plus.svg?react";
 
 export default function CommandMenu() {
-  const open = useCompaniesStore((state) => state.searchOpen);
-  const setOpen = useCompaniesStore((state) => state.setSearchOpen);
+  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const open = useUiStore((state) => state.searchOpen);
+  const setOpen = useUiStore((state) => state.setSearchOpen);
   const companies = useCompaniesStore((state) => state.companies);
   const openDetail = useCompaniesStore((state) => state.openDetail);
   const setNewCompanyOpen = useCompaniesStore(
@@ -35,7 +39,7 @@ export default function CommandMenu() {
         return;
       }
       event.preventDefault();
-      const { searchOpen, setSearchOpen } = useCompaniesStore.getState();
+      const { searchOpen, setSearchOpen } = useUiStore.getState();
       setSearchOpen(!searchOpen);
     }
 
@@ -43,10 +47,11 @@ export default function CommandMenu() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  function run(action: () => void) {
+  function goHome(action: () => void) {
     actionRan.current = true;
     setOpen(false);
     action();
+    if (pathname !== "/") void navigate({ to: "/" });
   }
 
   return (
@@ -77,7 +82,7 @@ export default function CommandMenu() {
               <CommandCompanyRow
                 key={company.id}
                 company={company}
-                onSelect={() => run(() => openDetail(company.id))}
+                onSelect={() => goHome(() => openDetail(company.id))}
               />
             ))}
           </CommandGroup>
@@ -86,7 +91,7 @@ export default function CommandMenu() {
             <CommandItem
               value="new-company"
               keywords={["New Company", "Add", "Create"]}
-              onSelect={() => run(() => setNewCompanyOpen(true))}
+              onSelect={() => goHome(() => setNewCompanyOpen(true))}
             >
               <span className="bg-muted flex size-6 shrink-0 items-center justify-center rounded-md shadow-[0px_0px_0px_1px_#232323]">
                 <PlusIcon aria-hidden className="text-soft size-3" />

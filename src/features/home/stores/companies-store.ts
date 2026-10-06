@@ -9,19 +9,20 @@ type CompaniesState = {
   owner: string;
   stage: string;
   activityWindow: number;
+  search: string;
   selectedIds: string[];
   detailId: string | null;
   detailOpen: boolean;
   profileName: string | null;
   profileOpen: boolean;
   newCompanyOpen: boolean;
-  searchOpen: boolean;
   unreadNotificationIds: string[];
   activeTab: string;
   setSortBy: (sortBy: SortKey) => void;
   setOwner: (owner: string) => void;
   setStage: (stage: string) => void;
   setActivityWindow: (days: number) => void;
+  setSearch: (search: string) => void;
   resetFilters: () => void;
   toggleSelected: (id: string) => void;
   setSelected: (ids: string[]) => void;
@@ -30,7 +31,6 @@ type CompaniesState = {
   openProfile: (name: string) => void;
   closeProfile: () => void;
   setNewCompanyOpen: (open: boolean) => void;
-  setSearchOpen: (open: boolean) => void;
   markNotificationRead: (id: string) => void;
   markAllNotificationsRead: () => void;
   setActiveTab: (tab: string) => void;
@@ -46,7 +46,6 @@ export const useCompaniesStore = create<CompaniesState>((set) => ({
   profileName: null,
   profileOpen: false,
   newCompanyOpen: false,
-  searchOpen: false,
   unreadNotificationIds: NOTIFICATIONS.filter((item) => item.unread).map(
     (item) => item.id,
   ),
@@ -55,6 +54,7 @@ export const useCompaniesStore = create<CompaniesState>((set) => ({
   setOwner: (owner) => set({ owner }),
   setStage: (stage) => set({ stage }),
   setActivityWindow: (activityWindow) => set({ activityWindow }),
+  setSearch: (search) => set({ search }),
   resetFilters: () => set({ ...DEFAULT_FILTERS }),
   toggleSelected: (id) =>
     set((state) => ({
@@ -70,7 +70,6 @@ export const useCompaniesStore = create<CompaniesState>((set) => ({
     set({ profileName, profileOpen: true, detailOpen: false }),
   closeProfile: () => set({ profileOpen: false }),
   setNewCompanyOpen: (newCompanyOpen) => set({ newCompanyOpen }),
-  setSearchOpen: (searchOpen) => set({ searchOpen }),
   markNotificationRead: (id) =>
     set((state) => ({
       unreadNotificationIds: state.unreadNotificationIds.filter(

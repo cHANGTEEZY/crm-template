@@ -8,6 +8,7 @@ import {
 import ScrollToTop from "@/components/_common/scroll-to-top";
 import Providers from "@/components/providers";
 import { SIDEBAR_WIDTH_SCRIPT } from "@/lib/sidebar";
+import { THEME_SCRIPT } from "@/lib/theme";
 import { SITE_DESCRIPTION, SITE_NAME, canonicalLink, headMeta } from "@/lib/seo";
 import "@/styles.css";
 
@@ -50,7 +51,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `history.scrollRestoration="manual";${SIDEBAR_WIDTH_SCRIPT}`,
+            __html: `history.scrollRestoration="manual";${SIDEBAR_WIDTH_SCRIPT}${THEME_SCRIPT}`,
           }}
         />
         <HeadContent />

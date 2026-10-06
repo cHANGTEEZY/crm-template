@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouterState } from "@tanstack/react-router";
-import Button from "@/components/_ui/button";
 import { ScrollArea } from "@/components/_ui/scroll-area";
 import SidebarNavItem from "./sidebar-nav-item";
 import SidebarSection from "./sidebar-section";
+import SidebarUser from "./sidebar-user";
 import { useCompaniesStore } from "@/features/home/stores/companies-store";
 import { USERS } from "@/features/users/data/users";
 import Logo from "@/public/assets/images/_common/logo.svg?react";
@@ -24,20 +24,21 @@ import DotPink from "@/public/assets/images/companies/sidebar/dot-pink.svg?react
 import DotPurple from "@/public/assets/images/companies/sidebar/dot-purple.svg?react";
 import UserPlusIcon from "@/public/assets/images/companies/sidebar/user-plus.svg?react";
 import MessageQuestionIcon from "@/public/assets/images/companies/sidebar/message-question.svg?react";
-import WalletIcon from "@/public/assets/images/companies/sidebar/wallet.svg?react";
 
 const BASE_COMPANY_COUNT = 223;
 
 export default function SidebarContent() {
   const companyCount = useCompaniesStore((state) => state.companies.length);
-  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="border-sidebar-border bg-sidebar-accent flex shrink-0 items-center gap-2 border-b p-3">
-        <Logo aria-hidden className="size-8 shrink-0 overflow-visible" />
+      <div className="flex shrink-0 items-center gap-2.5 px-3.5 pt-4 pb-3">
+        <Logo aria-hidden className="size-7 shrink-0 overflow-visible" />
         <div className="flex min-w-0 flex-col gap-1">
-          <span className="lead-style block truncate font-medium tracking-[-0.01em]">
+          <span className="lead-style block truncate font-medium tracking-[-0.01em] text-foreground">
             Sales CRM
           </span>
           <span className="caption-style text-subtle block truncate">
@@ -47,8 +48,8 @@ export default function SidebarContent() {
       </div>
 
       <ScrollArea className="min-h-0 flex-1">
-        <nav aria-label="Primary">
-          <SidebarSection className="border-sidebar-border border-b">
+        <nav aria-label="Primary" className="flex flex-col gap-1 pb-2">
+          <SidebarSection>
             <SidebarNavItem
               icon={BuildingIcon}
               label="Companies"
@@ -70,19 +71,13 @@ export default function SidebarContent() {
             <SidebarNavItem icon={MailIcon} label="Email Sequences" />
           </SidebarSection>
 
-          <SidebarSection
-            title="Team"
-            className="border-sidebar-border border-b"
-          >
+          <SidebarSection title="Team">
             <SidebarNavItem icon={TargetIcon} label="Strategic AEs" />
             <SidebarNavItem icon={TargetAltIcon} label="Mid Market" />
             <SidebarNavItem icon={UsersIcon} label="SDR Team" />
           </SidebarSection>
 
-          <SidebarSection
-            title="Reporting"
-            className="border-sidebar-border border-b"
-          >
+          <SidebarSection title="Reporting">
             <SidebarNavItem icon={BarChartAltIcon} label="Q1 Forecast" />
             <SidebarNavItem icon={AlertTriangleIcon} label="Slipping Deals" />
           </SidebarSection>
@@ -92,32 +87,23 @@ export default function SidebarContent() {
             <SidebarNavItem icon={DotPink} label="EMEA Enterprise" />
             <SidebarNavItem icon={DotPurple} label="APAC Expansion" />
           </SidebarSection>
+
+          <SidebarSection>
+            <SidebarNavItem
+              icon={UserPlusIcon}
+              label="Invite teammates"
+              tone="quiet"
+            />
+            <SidebarNavItem
+              icon={MessageQuestionIcon}
+              label="Help"
+              tone="quiet"
+            />
+          </SidebarSection>
         </nav>
       </ScrollArea>
 
-      <SidebarSection className="border-sidebar-border shrink-0 border-t border-b">
-        <SidebarNavItem
-          icon={UserPlusIcon}
-          label="Invite teammates"
-          tone="quiet"
-        />
-        <SidebarNavItem icon={MessageQuestionIcon} label="Help" tone="quiet" />
-      </SidebarSection>
-
-      <div className="border-sidebar-border bg-sidebar-accent flex shrink-0 items-center justify-between gap-2 border-b p-4">
-        <div className="flex flex-col gap-2">
-          <span className="lead-style block font-medium tracking-[-0.01em]">
-            14 Days
-          </span>
-          <span className="caption-style text-subtle block">
-            Left on trials
-          </span>
-        </div>
-        <Button variant="muted" size="md">
-          <WalletIcon aria-hidden className="size-3.5" />
-          Add Billings
-        </Button>
-      </div>
+      <SidebarUser />
     </div>
   );
 }

@@ -1,10 +1,12 @@
 import type { User } from "@/api/users";
 import type { UserSortKey } from "@/features/users/data/users";
+import { matchesQuery } from "@/lib/search";
 
 export type UserFilters = {
   sortBy: UserSortKey;
   role: string;
   status: string;
+  search: string;
 };
 
 export const TODAY = "2026-09-14";
@@ -16,12 +18,14 @@ export const DEFAULT_FILTERS: UserFilters = {
   sortBy: "name",
   role: ALL_ROLES,
   status: ALL_STATUSES,
+  search: "",
 };
 
-export function activeFilterCount({ role, status }: UserFilters) {
+export function activeFilterCount({ role, status, search }: UserFilters) {
   return [
     role !== DEFAULT_FILTERS.role,
     status !== DEFAULT_FILTERS.status,
+    search.trim().length > 0,
   ].filter(Boolean).length;
 }
 
@@ -31,12 +35,20 @@ export function userFullName(user: User) {
 
 export function filterUsers(
   users: User[],
-  { sortBy, role, status }: UserFilters,
+  { sortBy, role, status, search }: UserFilters,
 ): User[] {
   const filtered = users.filter((user) => {
     if (role !== ALL_ROLES && user.role !== role) return false;
     if (status !== ALL_STATUSES && user.status !== status) return false;
-    return true;
+    return matchesQuery(
+      search,
+      userFullName(user),
+      user.email,
+      user.username,
+      user.role,
+      user.phone,
+      user.status,
+    );
   });
 
   return filtered.sort((a, b) => {

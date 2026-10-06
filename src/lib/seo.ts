@@ -38,6 +38,13 @@ export const SITE_ROUTES: SiteRoute[] = [
     changeFrequency: "weekly",
     priority: 0.8,
   },
+  {
+    path: "/settings",
+    title: "Settings",
+    description: "Manage your profile, appearance, and session.",
+    changeFrequency: "monthly",
+    priority: 0.4,
+  },
 ];
 
 type PageHeadOptions = {

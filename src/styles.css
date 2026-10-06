@@ -162,6 +162,79 @@
   --padding-section-page: 6rem;
 }
 
+html.light {
+  color-scheme: light;
+  --background: #f6f6f4;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #4124fb;
+  --primary-foreground: #f9fbff;
+  --secondary: #f0f0ee;
+  --secondary-foreground: #171717;
+  --muted: #ececea;
+  --muted-foreground: #6b6b6b;
+  --accent: #ececea;
+  --accent-foreground: #171717;
+  --destructive: #dc2626;
+  --border: #e6e6e2;
+  --input: #d4d4d0;
+  --ring: #a1a1a1;
+  --sidebar: #f3f3f0;
+  --sidebar-foreground: #5c5c5c;
+  --sidebar-primary: #e7e7e3;
+  --sidebar-primary-foreground: #171717;
+  --sidebar-accent: #efefe9;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: #e4e4e0;
+  --sidebar-ring: #a1a1a1;
+  --line-strong: #d4d4d0;
+  --subtle: #737373;
+  --faint: #a3a3a3;
+  --soft: #525252;
+  --chip: #404040;
+  --icon: #3f3f46;
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --trend: #00a050;
+  --trend-muted: #b7d4c4;
+  --track: #e4e4e0;
+  --status: #0d9488;
+  --tag-blue-bg: #e8f0fe;
+  --tag-blue-border: #c5d8f8;
+  --tag-blue-text: #1d4ed8;
+  --tag-purple-bg: #eeeafc;
+  --tag-purple-border: #d5cdf6;
+  --tag-purple-text: #5b21b6;
+  --tag-green-bg: #e8f7ee;
+  --tag-green-border: #c6e9d2;
+  --tag-green-text: #166534;
+  --tag-moss-bg: #e9f5e6;
+  --tag-moss-border: #c9e3c3;
+  --tag-moss-text: #166534;
+  --tag-red-bg: #fdecec;
+  --tag-red-border: #f5c9cb;
+  --tag-red-text: #b91c1c;
+  --tag-orange-bg: #fdeee4;
+  --tag-orange-border: #f5d0b8;
+  --tag-orange-text: #c2410c;
+  --tag-amber-bg: #faf0e4;
+  --tag-amber-border: #f0d8bf;
+  --tag-amber-text: #b45309;
+  --tag-teal-bg: #e6f7f0;
+  --tag-teal-border: #bfe8d2;
+  --tag-teal-text: #047857;
+  --tag-yellow-bg: #faf6e4;
+  --tag-yellow-border: #efe4b8;
+  --tag-yellow-text: #a16207;
+  --tag-neutral-bg: #efefed;
+  --tag-neutral-border: #dcdcd8;
+  --tag-neutral-text: #404040;
+}
+
 @variant sm {
   :root {
     --padding-global: 2rem;
@@ -194,7 +267,8 @@
   * {
     @apply border-border outline-ring/50;
     scrollbar-width: thin;
-    scrollbar-color: rgb(255 255 255 / 0.2) transparent;
+    scrollbar-color: color-mix(in srgb, var(--foreground) 20%, transparent)
+      transparent;
   }
   body {
     @apply bg-background text-foreground font-normal;
@@ -202,7 +276,7 @@
 
   h1,
   .h1-style {
-    @apply text-[16px] leading-none font-medium tracking-normal;
+    @apply text-[20px] leading-none font-medium tracking-[-0.02em] sm:text-[22px];
   }
 
   h2,
