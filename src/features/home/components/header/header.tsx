@@ -4,6 +4,7 @@ import Avatar from "@/components/_ui/avatar";
 import Button from "@/components/_ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/_ui/tabs";
 import Notifications from "./notifications/notifications";
+import { useUiStore } from "@/features/app/stores/ui-store";
 import { CURRENT_USER } from "@/features/home/data/companies";
 import { useCompaniesStore } from "@/features/home/stores/companies-store";
 import MenuIcon from "@/public/assets/images/_common/menu.svg?react";
@@ -19,7 +20,7 @@ const TABS = [
 export default function CompaniesHeader() {
   const activeTab = useCompaniesStore((state) => state.activeTab);
   const setActiveTab = useCompaniesStore((state) => state.setActiveTab);
-  const setSidebarOpen = useCompaniesStore((state) => state.setSidebarOpen);
+  const setSidebarOpen = useUiStore((state) => state.setSidebarOpen);
   const setSearchOpen = useCompaniesStore((state) => state.setSearchOpen);
   const openProfile = useCompaniesStore((state) => state.openProfile);
 

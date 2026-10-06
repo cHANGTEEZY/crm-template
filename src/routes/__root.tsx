@@ -6,6 +6,7 @@ import {
   createRootRoute,
 } from "@tanstack/react-router";
 import ScrollToTop from "@/components/_common/scroll-to-top";
+import Providers from "@/components/providers";
 import { SIDEBAR_WIDTH_SCRIPT } from "@/lib/sidebar";
 import { SITE_DESCRIPTION, SITE_NAME, canonicalLink, headMeta } from "@/lib/seo";
 import "@/styles.css";
@@ -56,7 +57,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       </head>
       <body className="relative z-0 font-sans antialiased">
         <ScrollToTop />
-        {children}
+        <Providers>{children}</Providers>
         <Scripts />
       </body>
     </html>

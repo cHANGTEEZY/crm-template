@@ -238,6 +238,10 @@
     @apply text-[12px] leading-none font-normal tracking-[1px] uppercase;
   }
 
+  .display-style {
+    @apply text-[28px] leading-none font-medium tracking-[-0.03em] sm:text-[32px];
+  }
+
   html,
   body {
     scroll-behavior: smooth;

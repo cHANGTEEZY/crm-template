@@ -2,25 +2,19 @@
 
 import { useMemo } from "react";
 import { Checkbox } from "@/components/_ui/checkbox";
-import { ScrollArea } from "@/components/_ui/scroll-area";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/_ui/table";
+import DataTable from "@/components/_ui/data-table/data-table";
+import { createDataTableColumnHelper } from "@/components/_ui/data-table/table-features";
 import CompanyRow from "./company-row";
-import TableFooter from "./table-footer";
 import {
-  TABLE_CELL_CLASS,
   TABLE_COLUMNS,
   TABLE_GRID_CLASS,
   TABLE_ROW_CLASS,
 } from "./table-columns";
 import { filterCompanies } from "@/features/home/lib/companies";
-import { cn } from "@/lib/utils";
+import type { Company } from "@/features/home/data/companies";
 import { useCompaniesStore } from "@/features/home/stores/companies-store";
+
+const columnHelper = createDataTableColumnHelper<Company>();
 
 export default function CompaniesTable() {
   const companies = useCompaniesStore((state) => state.companies);
@@ -52,66 +46,56 @@ export default function CompaniesTable() {
     setSelected(allSelected ? [] : visible.map((company) => company.id));
   }
 
+  const columns = useMemo(
+    () =>
+      TABLE_COLUMNS.map((column) =>
+        columnHelper.display({
+          id: column.key,
+          header:
+            column.key === "name"
+              ? () => (
+                  <span className="flex items-center gap-5">
+                    <Checkbox
+                      checked={
+                        allSelected
+                          ? true
+                          : someSelected
+                            ? "indeterminate"
+                            : false
+                      }
+                      onCheckedChange={toggleAll}
+                      aria-label="Select all companies"
+                    />
+                    {column.label}
+                  </span>
+                )
+              : column.label,
+          meta: { className: column.className },
+        }),
+      ),
+    [allSelected, someSelected, visible],
+  );
+
   return (
-    <div className="border-border flex min-h-0 flex-1 flex-col border-t">
-      <ScrollArea orientation="both" className="min-h-0 flex-1">
-        <Table role="table" className={cn(TABLE_GRID_CLASS, "w-full")}>
-          <TableHeader role="rowgroup" className="contents">
-            <TableRow role="row" className={TABLE_ROW_CLASS}>
-              {TABLE_COLUMNS.map((column) => (
-                <TableHead
-                  key={column.key}
-                  role="columnheader"
-                  className={cn(TABLE_CELL_CLASS, column.className)}
-                >
-                  {column.key === "name" ? (
-                    <span className="flex items-center gap-5">
-                      <Checkbox
-                        checked={
-                          allSelected
-                            ? true
-                            : someSelected
-                              ? "indeterminate"
-                              : false
-                        }
-                        onCheckedChange={toggleAll}
-                        aria-label="Select all companies"
-                      />
-                      {column.label}
-                    </span>
-                  ) : (
-                    column.label
-                  )}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody role="rowgroup" className="contents">
-            {visible.map((company) => (
-              <CompanyRow
-                key={company.id}
-                company={company}
-                selected={selectedIds.includes(company.id)}
-                active={detailOpen && detailId === company.id}
-                onToggle={() => toggleSelected(company.id)}
-                onOpen={() => openDetail(company.id)}
-                onOpenOwner={() => openProfile(company.owner)}
-              />
-            ))}
-            {visible.length === 0 && (
-              <TableRow role="row" className={TABLE_ROW_CLASS}>
-                <td
-                  role="cell"
-                  className="caption-style text-muted-foreground col-span-full flex h-[120px] items-center justify-center"
-                >
-                  No companies match the current filters.
-                </td>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </ScrollArea>
-      <TableFooter count={visible.length} />
-    </div>
+    <DataTable
+      columns={columns}
+      data={visible}
+      getRowId={(company) => company.id}
+      tableClassName={TABLE_GRID_CLASS}
+      rowClassName={TABLE_ROW_CLASS}
+      countLabel="Companies in view"
+      empty="No companies match the current filters."
+      renderRow={(row) => (
+        <CompanyRow
+          key={row.id}
+          company={row.original}
+          selected={selectedIds.includes(row.original.id)}
+          active={detailOpen && detailId === row.original.id}
+          onToggle={() => toggleSelected(row.original.id)}
+          onOpen={() => openDetail(row.original.id)}
+          onOpenOwner={() => openProfile(row.original.owner)}
+        />
+      )}
+    />
   );
 }

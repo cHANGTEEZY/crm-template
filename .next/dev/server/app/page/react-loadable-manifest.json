@@ -1,0 +1,15 @@
+{
+  "[project]/node_modules/lottie-react/build/index.umd.js [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/node_modules/lottie-react/build/index.umd.js [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_10fanfv._.js"
+    ]
+  },
+  "[project]/components/_ui/asset/asset-rive-canvas.tsx [app-client] (ecmascript, next/dynamic entry)": {
+    "id": "[project]/components/_ui/asset/asset-rive-canvas.tsx [app-client] (ecmascript, next/dynamic entry)",
+    "files": [
+      "static/chunks/node_modules_@rive-app_0kjmj-6._.js",
+      "static/chunks/components__ui_asset_asset-rive-canvas_tsx_1tv8b9z._.js"
+    ]
+  }
+}

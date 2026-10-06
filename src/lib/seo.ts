@@ -31,6 +31,13 @@ export const SITE_ROUTES: SiteRoute[] = [
     changeFrequency: "weekly",
     priority: 1,
   },
+  {
+    path: "/users",
+    title: "Users",
+    description: "Manage user accounts and permissions.",
+    changeFrequency: "weekly",
+    priority: 0.8,
+  },
 ];
 
 type PageHeadOptions = {
