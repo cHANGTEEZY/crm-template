@@ -1,6 +1,6 @@
 # Kargul Starter
 
-Next.js 16 + React 19 + Tailwind CSS 4 boilerplate. Read `CONVENTIONS.md` before writing any component, section, or page — it is the whole spec for how this repo is built.
+TanStack Start (Vite) + React 19 + Tailwind CSS 4 boilerplate. Read `CONVENTIONS.md` before writing any component, section, or page — it is the whole spec for how this repo is built.
 
 ## Getting started
 
@@ -23,15 +23,25 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## First things to set on a new project
 
-1. **`lib/seo.ts`** — `SITE_NAME`, `SITE_URL`, `SITE_DESCRIPTION`, `SITE_ROUTES`. Everything in `app/robots.ts`, `app/sitemap.ts`, `app/llms.txt/route.ts` and every page's metadata derives from these (rule 18). Set `NEXT_PUBLIC_SITE_URL` in the environment to override the URL per deploy.
-2. **`app/globals.css`** — match the `@layer base` type scale and the `--padding-section-*` tokens to the design before building anything (rules 1 and 3).
-3. **`app/opengraph-image.jpg`** — 1200×630, with an `opengraph-image.alt.txt` beside it.
-4. **Fonts** — `app/layout.tsx` ships Inter + a local Inter Display; swap them for the design's typeface.
+1. **`src/lib/seo.ts`** — `SITE_NAME`, `SITE_URL`, `SITE_DESCRIPTION`, `SITE_ROUTES`. Everything in `src/routes/robots[.]txt.ts`, `src/routes/sitemap[.]xml.ts`, `src/routes/llms[.]txt.ts` and every route's `head()` derives from these. Set `VITE_SITE_URL` in the environment to override the URL per deploy.
+2. **`src/styles.css`** — match the `@layer base` type scale and the `--padding-section-*` tokens to the design before building anything (rules 1 and 3).
+3. **`public/opengraph-image.jpg`** — 1200×630, referenced by `DEFAULT_OG_IMAGE` in `src/lib/seo.ts`.
+4. **Fonts** — `src/styles.css` ships Geist Variable (`@fontsource-variable/geist` via `--font-geist`); swap it for the design's typeface.
+
+## Structure
+
+```
+src/routes/       file-based routes + server routes (robots, sitemap, llms)
+src/features/     feature folders — page, components, lib, data, stores
+src/components/   shared UI (_ui, _common, motion-primitives)
+src/lib/          shared helpers (seo, utils, sidebar, easings)
+src/router.tsx    TanStack Router config
+```
 
 ## Docs
 
 | File               | What's in it                                                        |
 | ------------------ | ------------------------------------------------------------------- |
 | `CONVENTIONS.md`   | The build rules. Read first.                                        |
-| `AGENTS.md`        | Next.js version notes for agents                                    |
+| `AGENTS.md`        | TanStack Start notes for agents                                     |
 | `OPTIMIZATION.md`  | Why `Asset`'s Rive loading is gated behind LCP, with the measurements |
