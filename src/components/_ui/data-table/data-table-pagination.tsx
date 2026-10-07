@@ -1,11 +1,19 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import type { ReactTable } from "@tanstack/react-table";
 import type { RowData } from "@tanstack/react-table";
+import { AnimatedCounter } from "@/components/arc/animated-counter/animated-counter";
 import Button from "@/components/_ui/button";
 import FilterMenu from "@/components/_common/filter-menu";
 import type { DataTableFeatures } from "./table-features";
 import ChevronDownIcon from "@/public/assets/images/_common/chevron-down.svg?react";
+
+const COUNT_STYLE = {
+  "--text-3xl": "12px",
+  "--tracking-display": "0",
+  "--font-display": "inherit",
+} as CSSProperties;
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 20, 50];
 
@@ -29,7 +37,9 @@ export default function DataTablePagination<TData extends RowData>({
   return (
     <div className="border-border bg-background flex shrink-0 flex-col gap-2 border-t px-3 py-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="caption-style flex flex-wrap items-center gap-x-2 gap-y-1">
-        <span className="text-foreground tabular-nums">{total}</span>
+        <span className="text-foreground inline-flex items-center" style={COUNT_STYLE}>
+          <AnimatedCounter value={total} />
+        </span>
         <span className="text-muted-foreground">{countLabel}</span>
         <span role="status" className="text-muted-foreground hidden sm:inline">
           Showing {from}–{to} of {total}

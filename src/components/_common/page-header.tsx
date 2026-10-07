@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import AppearanceSwitch from "@/components/_common/appearance-switch";
 import Button from "@/components/_ui/button";
 import { useUiStore } from "@/features/app/stores/ui-store";
 import { cn } from "@/lib/utils";
@@ -59,12 +60,11 @@ export default function PageHeader({
           </div>
         </div>
 
-        {(search || actions) && (
-          <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
-            {search}
-            {actions}
-          </div>
-        )}
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
+          {search}
+          {actions}
+          <AppearanceSwitch iconOnly />
+        </div>
       </div>
       {children}
     </header>

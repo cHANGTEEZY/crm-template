@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import CommandMenu from "@/features/home/components/command-menu/command-menu";
+import AppToast from "./app-toast";
 import Sidebar from "./sidebar/sidebar";
 
 export default function AppShell({ children }: { children: ReactNode }) {
@@ -8,6 +9,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
       <Sidebar />
       {children}
       <CommandMenu />
+      <AppToast />
     </main>
   );
 }

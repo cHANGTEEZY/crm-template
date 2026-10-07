@@ -28,6 +28,7 @@ function getServerSnapshot(): Theme {
 
 function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle("light", theme === "light");
+  document.documentElement.dataset.theme = theme;
   localStorage.setItem(THEME_STORAGE_KEY, theme);
   emit();
 }

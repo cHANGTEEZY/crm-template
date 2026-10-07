@@ -1,6 +1,14 @@
+import type { CSSProperties } from "react";
+import { AnimatedCounter } from "@/components/arc/animated-counter/animated-counter";
 import SegmentBar from "@/components/_common/segment-bar";
 import type { Company } from "@/features/home/data/companies";
 import { companyHealth } from "@/features/home/lib/companies";
+
+const WIN_STYLE = {
+  "--text-3xl": "28px",
+  "--tracking-display": "-0.03em",
+  "--font-display": "inherit",
+} as CSSProperties;
 
 type PipelineHealthProps = {
   company: Company;
@@ -17,8 +25,11 @@ export default function PipelineHealth({ company }: PipelineHealthProps) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-1.5">
-        <span className="block text-[28px] leading-none font-semibold">
-          {company.winProbability}%
+        <span
+          className="block leading-none font-semibold"
+          style={WIN_STYLE}
+        >
+          <AnimatedCounter value={company.winProbability} suffix="%" />
         </span>
         <span className="caption-style block text-soft">
           Win probability across all open deals

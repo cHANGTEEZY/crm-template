@@ -45,6 +45,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html
       lang="en"
+      data-theme="dark"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

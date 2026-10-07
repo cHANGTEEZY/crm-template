@@ -1,37 +1,27 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { ConfirmMorph } from "@/components/arc/confirm-morph/confirm-morph";
+import { HoldToConfirm } from "@/components/arc/hold-to-confirm/hold-to-confirm";
+import AppearanceSwitch from "@/components/_common/appearance-switch";
 import Avatar from "@/components/_ui/avatar";
-import Button from "@/components/_ui/button";
 import { Checkbox } from "@/components/_ui/checkbox";
 import Field from "@/components/_ui/field";
 import { Input } from "@/components/_ui/input";
 import { Label } from "@/components/_ui/label";
-import {
-  MoonIcon,
-  SunIcon,
-} from "@/features/app/components/sidebar/sidebar-icons";
+import { useUiStore } from "@/features/app/stores/ui-store";
 import { signOutSession } from "@/features/auth/lib/session";
 import { CURRENT_USER } from "@/features/home/data/companies";
-import { useTheme } from "@/hooks/use-theme";
-import { cn } from "@/lib/utils";
 import SettingsHeader from "./header";
 
 export default function Settings() {
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
+  const showToast = useUiStore((state) => state.showToast);
   const [name, setName] = useState(CURRENT_USER.name);
   const [email, setEmail] = useState(CURRENT_USER.email);
-  const [saved, setSaved] = useState(false);
   const [digest, setDigest] = useState(true);
   const [dealAlerts, setDealAlerts] = useState(true);
-
-  function saveProfile(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSaved(true);
-    window.setTimeout(() => setSaved(false), 1600);
-  }
 
   function logout() {
     signOutSession();
@@ -63,7 +53,10 @@ export default function Settings() {
                 </p>
               </div>
             </div>
-            <form className="flex flex-col gap-5" onSubmit={saveProfile}>
+            <form
+              className="flex flex-col gap-5"
+              onSubmit={(event) => event.preventDefault()}
+            >
               <Field label="Name" htmlFor="settings-name">
                 <Input
                   id="settings-name"
@@ -90,9 +83,21 @@ export default function Settings() {
                 />
               </Field>
               <div>
-                <Button variant="primary" size="md" type="submit">
-                  {saved ? "Saved" : "Save changes"}
-                </Button>
+                <ConfirmMorph
+                  label="Save changes"
+                  prompt="Save profile updates?"
+                  confirmLabel="Save"
+                  cancelLabel="Cancel"
+                  pendingLabel="Saving"
+                  doneLabel="Saved"
+                  tone="neutral"
+                  onConfirm={() => {
+                    showToast({
+                      title: "Profile saved",
+                      description: "Your workspace profile is up to date.",
+                    });
+                  }}
+                />
               </div>
             </form>
           </section>
@@ -104,47 +109,8 @@ export default function Settings() {
                 Switch between dark and light for this browser.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => setTheme("dark")}
-                aria-pressed={theme === "dark"}
-                className={cn(
-                  "flex cursor-pointer flex-col gap-3 rounded-xl border p-3 text-left outline-none transition-[border-color,background-color] duration-150 ease-power3-out focus-visible:ring-2 focus-visible:ring-ring/60",
-                  theme === "dark"
-                    ? "border-ring bg-muted"
-                    : "border-border bg-secondary hover:border-line-strong",
-                )}
-              >
-                <span className="flex h-16 items-end rounded-lg bg-[#161616] p-2">
-                  <span className="h-6 w-8 rounded-sm bg-[#2a2a2a]" />
-                  <span className="ml-1 h-6 flex-1 rounded-sm bg-[#1b1d20]" />
-                </span>
-                <span className="flex items-center gap-1.5 text-[13px] leading-none font-medium">
-                  <MoonIcon />
-                  Dark
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setTheme("light")}
-                aria-pressed={theme === "light"}
-                className={cn(
-                  "flex cursor-pointer flex-col gap-3 rounded-xl border p-3 text-left outline-none transition-[border-color,background-color] duration-150 ease-power3-out focus-visible:ring-2 focus-visible:ring-ring/60",
-                  theme === "light"
-                    ? "border-ring bg-muted"
-                    : "border-border bg-secondary hover:border-line-strong",
-                )}
-              >
-                <span className="flex h-16 items-end rounded-lg bg-[#f6f6f4] p-2">
-                  <span className="h-6 w-8 rounded-sm bg-[#e7e7e3]" />
-                  <span className="ml-1 h-6 flex-1 rounded-sm bg-white" />
-                </span>
-                <span className="flex items-center gap-1.5 text-[13px] leading-none font-medium">
-                  <SunIcon />
-                  Light
-                </span>
-              </button>
+            <div>
+              <AppearanceSwitch variant="reveal" />
             </div>
           </section>
 
@@ -189,9 +155,12 @@ export default function Settings() {
               </p>
             </div>
             <div>
-              <Button variant="muted" size="md" onClick={logout}>
-                Log out
-              </Button>
+              <HoldToConfirm
+                label="Hold to log out"
+                confirmedLabel="Signed out"
+                tone="danger"
+                onConfirm={logout}
+              />
             </div>
           </section>
         </div>

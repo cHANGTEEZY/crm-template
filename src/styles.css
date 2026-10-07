@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "@fontsource-variable/geist";
+@import "./components/arc/foundation.css";
+@import "./styles/arc-theme.css";
 @plugin "tailwind-scrollbar";
 
 @custom-variant dark (&:is(.dark *));
@@ -22,7 +24,7 @@
   --color-border: var(--border);
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
+  --color-accent: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -80,7 +82,8 @@
   --ease-smooth-in-out: cubic-bezier(0.7, 0, 0, 1);
 }
 
-:root {
+:root,
+:root[data-theme="dark"] {
   color-scheme: dark;
   --font-geist: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
   --radius: 0.5rem;
@@ -96,8 +99,10 @@
   --secondary-foreground: #f9fbff;
   --muted: #2a2a2a;
   --muted-foreground: #7f7f7f;
-  --accent: #2a2a2a;
+  --accent: #4124fb;
   --accent-foreground: #f9fbff;
+  --accent-strong: #4b30ff;
+  --accent-subtle: rgb(65 36 251 / 0.13);
   --destructive: #f97373;
   --border: #232323;
   --input: #393939;
@@ -162,7 +167,8 @@
   --padding-section-page: 6rem;
 }
 
-html.light {
+html.light,
+:root[data-theme="light"] {
   color-scheme: light;
   --background: #f6f6f4;
   --foreground: #171717;
@@ -176,8 +182,10 @@ html.light {
   --secondary-foreground: #171717;
   --muted: #ececea;
   --muted-foreground: #6b6b6b;
-  --accent: #ececea;
-  --accent-foreground: #171717;
+  --accent: #4124fb;
+  --accent-foreground: #f9fbff;
+  --accent-strong: #4b30ff;
+  --accent-subtle: rgb(65 36 251 / 0.12);
   --destructive: #dc2626;
   --border: #e6e6e2;
   --input: #d4d4d0;
