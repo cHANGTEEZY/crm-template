@@ -1,14 +1,11 @@
 "use client";
 
-import { useNavigate, useRouterState } from "@tanstack/react-router";
-import { ExpandingSearch } from "@/components/arc/expanding-search/expanding-search";
 import Button from "@/components/_ui/button";
+import { Kbd } from "@/components/_ui/command";
+import { searchBarClassName } from "@/components/_ui/search-bar";
 import { useUiStore } from "@/features/app/stores/ui-store";
-import { useCompaniesStore } from "@/features/home/stores/companies-store";
 import { cn } from "@/lib/utils";
 import SearchIcon from "@/public/assets/images/_common/search.svg?react";
-
-const COMMAND_ITEM_ID = "open-command-palette";
 
 type CommandSearchProps = {
   placeholder?: string;
@@ -19,71 +16,40 @@ export default function CommandSearch({
   placeholder = "Search…",
   className,
 }: CommandSearchProps) {
-  const navigate = useNavigate();
-  const pathname = useRouterState({
-    select: (state) => state.location.pathname,
-  });
   const setSearchOpen = useUiStore((state) => state.setSearchOpen);
-  const companies = useCompaniesStore((state) => state.companies);
-  const openDetail = useCompaniesStore((state) => state.openDetail);
 
-  const items = companies.map((company) => ({
-    id: company.id,
-    title: company.name,
-    meta: company.owner,
-    group: "Companies",
-    keywords: [...company.tags],
-  }));
-
-  function openCommand() {
+  function open() {
     setSearchOpen(true);
-  }
-
-  function goHome() {
-    if (pathname !== "/") void navigate({ to: "/" });
   }
 
   return (
     <>
-      <div
+      <button
+        type="button"
+        onClick={open}
+        aria-label="Search"
+        aria-keyshortcuts="Meta+K Control+K"
         className={cn(
-          "max-sm:hidden min-w-[36px] sm:max-w-[20em] sm:flex-1",
+          searchBarClassName(
+            "md",
+            "hover:border-ring max-sm:hidden min-w-0 cursor-pointer text-left outline-none sm:max-w-[20em] sm:flex-1 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/60",
+          ),
           className,
         )}
       >
-        <ExpandingSearch
-          label={placeholder}
-          placeholder={placeholder}
-          items={items}
-          suggestions={[
-            {
-              id: COMMAND_ITEM_ID,
-              title: "Open command palette",
-              meta: "⌘K",
-              group: "Actions",
-            },
-          ]}
-          suggestionsLabel="Quick actions"
-          anchor="end"
-          expandedWidth={320}
-          emptyHint="Try a company name, or press ⌘K."
-          onSelect={(item) => {
-            if (item.id === COMMAND_ITEM_ID) {
-              openCommand();
-              return;
-            }
-            openDetail(item.id);
-            goHome();
-          }}
-        />
-      </div>
+        <SearchIcon aria-hidden className="text-subtle size-3.5 shrink-0" />
+        <span className="text-subtle min-w-0 flex-1 truncate">
+          {placeholder}
+        </span>
+        <Kbd className="shrink-0">⌘K</Kbd>
+      </button>
       <Button
         variant="secondary"
         size="icon"
         className="sm:hidden"
         aria-label="Search"
         aria-keyshortcuts="Meta+K Control+K"
-        onClick={openCommand}
+        onClick={open}
       >
         <SearchIcon aria-hidden className="size-3.5" />
       </Button>

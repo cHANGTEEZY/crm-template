@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useId, useState, type ComponentProps } from "react";
-import { SearchField } from "@/components/arc/search-field/search-field";
+import { searchBarClassName } from "@/components/_ui/search-bar";
 import { useDeferredCallback } from "@/hooks/use-deferred-callback";
 import { cn } from "@/lib/utils";
+import SearchIcon from "@/public/assets/images/_common/search.svg?react";
+import XIcon from "@/public/assets/images/companies/detail/x.svg?react";
 
 export const TABLE_SEARCH_DEBOUNCE_MS = 300;
 
@@ -38,7 +40,6 @@ export default function DataTableSearch({
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const [query, setQuery] = useState(value);
-  const label = props["aria-label"] ?? placeholder;
 
   const emit = useDeferredCallback(onValueChange, {
     debounceMs: debounce ? debounceMs : 0,
@@ -55,24 +56,30 @@ export default function DataTableSearch({
   }
 
   return (
-    <div
-      className={cn(
-        "min-w-0 [&>div]:gap-0 [&>div>label]:sr-only",
-        size === "sm" && "[--control-height-md:30px]",
-        className,
-      )}
-    >
-      <SearchField
+    <div className={cn(searchBarClassName(size), className)}>
+      <SearchIcon aria-hidden className="text-subtle size-3.5 shrink-0" />
+      <input
         {...props}
         id={inputId}
         name={name}
-        label={label}
+        type="search"
         value={query}
         placeholder={placeholder}
         autoComplete="off"
         spellCheck={false}
-        onValueChange={update}
+        onChange={(event) => update(event.target.value)}
+        className="placeholder:text-subtle h-full min-w-0 flex-1 bg-transparent text-inherit leading-none text-foreground outline-none [&::-webkit-search-cancel-button]:hidden"
       />
+      {query.length > 0 && (
+        <button
+          type="button"
+          aria-label="Clear search"
+          onClick={() => update("")}
+          className="text-subtle hover:text-foreground flex size-4 shrink-0 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+        >
+          <XIcon aria-hidden className="size-3" />
+        </button>
+      )}
     </div>
   );
 }
