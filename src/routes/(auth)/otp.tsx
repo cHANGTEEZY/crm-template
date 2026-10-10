@@ -21,5 +21,6 @@ export const Route = createFileRoute("/(auth)/otp")({
 
 function OtpRoute() {
   const { email, intent } = Route.useSearch();
+ 
   return <OtpPage email={email ?? ""} intent={intent ?? "verify"} />;
 }

@@ -30,33 +30,33 @@ export default function SidebarUser() {
   }
 
   return (
-    <div className="border-sidebar-border shrink-0 border-t p-2">
+    <div className="border-sidebar-border shrink-0 border-t px-2.5 py-2">
       <DropdownMenu
         side="top"
         align="start"
         menuClassName="min-w-[var(--radix-dropdown-menu-trigger-width)]"
         trigger={
           <Button
-            variant="ghost"
+            variant="nav"
             aria-label={`Account menu for ${CURRENT_USER.name}`}
-            className="group h-auto w-full items-center justify-start gap-2 rounded-lg px-1.5 py-1.5 data-[state=open]:bg-sidebar-primary"
+            className="group h-auto items-center gap-2.5 rounded-lg px-2 py-1.5 data-[state=open]:bg-sidebar-primary"
           >
             <Avatar
               src={CURRENT_USER.avatar}
               alt=""
-              className="size-8 outline-sidebar-border"
+              className="size-8 outline-line-strong"
             />
             <span className="min-w-0 flex-1 text-left">
               <span className="block truncate text-[13px] leading-none font-medium text-foreground">
                 {CURRENT_USER.name}
               </span>
-              <span className="caption-style text-subtle mt-1.5 block truncate">
+              <span className="caption-style text-subtle group-hover:text-soft group-data-[state=open]:text-soft mt-1.5 block truncate transition-colors duration-150 ease-power3-out">
                 {CURRENT_USER.role}
               </span>
             </span>
             <ChevronDownIcon
               aria-hidden
-              className="text-subtle size-3 shrink-0 transition-transform duration-200 ease-power3-out group-data-[state=open]:rotate-180"
+              className="text-subtle group-hover:text-soft size-3 shrink-0 transition-transform duration-200 ease-power3-out group-data-[state=open]:rotate-180"
             />
           </Button>
         }
